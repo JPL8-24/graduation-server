@@ -1,7 +1,9 @@
 {
-    "userID":"2015141463072",
-    "userName":"姜潘磊",
+    "userID":"2015141463019",
+    "userName":"测试老师一",
     "userPwd":"123456",
-    "type":0,
-    "testList":[{}]
+    "type":1,
+    "testList":[],
+    "postList":[],
+    "checkList":[]
 }

@@ -25,47 +25,44 @@ mongoose.connection.on('disconnected',()=>{
   console.log('disconnect')
 })
 
-app.all('*',(req,res,next)=>{
-  res.header("Access-Control-Allow-Origin", "http://localhost:8080");
-  res.header("Access-Control-Allow-Headers", "X-Requested-With");
-  res.header("Access-Control-Allow-Methods","PUT,POST,GET,DELETE,OPTIONS");
-  res.header('Access-Control-Allow-Headers', 'Content-Type');
-  res.header('Access-Control-Allow-Credentials','true');
-  next();
+app.use((req,res,next)=>{
+  let token=req.headers.authorization
+  if(req.originalUrl=='/users/login' || req.originalUrl=='/users/authorization' || req.originalUrl.indexOf('public')>0){
+    next()
+  } else {
+    if(token){
+      jwt.verify(token,jwtTokenSecret,(err,decode)=>{
+        if(err){
+          res.json({
+            status:'2',
+            msg:'token信息错误',
+            data:''
+          })
+        } else {
+          next()
+        }
+      })
+    } else {
+      res.status(403).send({
+        status:'3',
+        msg:'未携带token',
+        data:''
+      })
+      next()
+    }
+  }
 })
-// app.use((req,res,next)=>{
-//   console.log(req.headers)
-//   let token=req.headers.Authorization
-//   if(req.originalUrl=='/users/login' || req.originalUrl=='/users/authorization'){
-//     next()
-//   } else {
-//     if(token){
-//       jwt.verify(token,jwtTokenSecret,(err,decode)=>{
-//         if(err){
-//           res.json({
-//             status:'2',
-//             msg:'token信息错误',
-//             data:''
-//           })
-//         } else {
-//           console.log(decode)
-//           next()
-//         }
-//       })
-//     } else {
-//       res.status(403).send({
-//         status:'3',
-//         msg:'未携带token',
-//         data:''
-//       })
-//     }
-//   }
-// })
 app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
+
+app.get('/public/images/*',(req,res,next)=>{
+  console.log(__dirname)
+  res.sendFile(__dirname+"/"+req.url)
+  console.log(req.url)
+})
 
 app.use('/', indexRouter);
 app.use('/users', usersRouter);

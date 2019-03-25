@@ -5,6 +5,8 @@ const userSchema=mongoose.Schema({
     "userPwd":String,
     "type":Number,
     "testList":Array,
+    "postList":Array,
+    "checkList":Array
 })
 
 module.exports=mongoose.model('User',userSchema)

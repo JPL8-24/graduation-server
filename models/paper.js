@@ -1,10 +1,15 @@
-let mongoose = require('mongoose')
+const mongoose = require('mongoose')
 const paperSchema = mongoose.Schema({
-    paperID:String,
-    Img:String,
-    questions:Array,
-    paperID:String,
-    paperRate:String
+    "paperID":String,
+    "Img":String,
+    "questions":Array,
+    "paperRate":Number,
+    "teacherID":String,
+    "ExamDate":Date,
+    "TotalTime":String,
+    "StudentList":Array,
+    "title":String,
+    "skill":String
 })
-
-module.exports=mongoose.model('Paper',paperSchema)
+//type:1单选 2多选 3主观
+module.exports=mongoose.model('Papers',paperSchema)
