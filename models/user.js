@@ -6,7 +6,8 @@ const userSchema=mongoose.Schema({
     "type":Number,
     "testList":Array,
     "postList":Array,
-    "checkList":Array
+    "checkList":Array,
+    "portrait":String
 })
 
 module.exports=mongoose.model('User',userSchema)

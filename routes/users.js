@@ -103,6 +103,7 @@ router.get("/userInfo", (req, res, next) => {
           userInfo.userID = doc.userID;
           userInfo.userName = doc.userName;
           userInfo.type = doc.type;
+          userInfo.portrait=doc.portrait;
           res.json({
             status: "1",
             msg: "suc",
@@ -139,6 +140,7 @@ router.get("/autoLogin", (req, res, next) => {
           userInfo.userID = doc.userID;
           userInfo.userName = doc.userName;
           userInfo.type = doc.type;
+          userInfo.portrait=doc.portrait;
           res.json({
             status: "1",
             msg: "suc",
@@ -170,9 +172,7 @@ router.get("/PaperList", (req, res, next) => {
   })
 });
 
-router.get('/postList',(req,res,next)=>{
 
-})
 
 
 module.exports = router;

@@ -27,7 +27,7 @@ mongoose.connection.on('disconnected',()=>{
 
 app.use((req,res,next)=>{
   let token=req.headers.authorization
-  if(req.originalUrl=='/users/login' || req.originalUrl=='/users/authorization' || req.originalUrl.indexOf('public')>0){
+  if(req.originalUrl=='/users/login' || req.originalUrl=='/users/authorization' || req.originalUrl.indexOf('public')>0 || req.originalUrl=='/uploadPortrait'){
     next()
   } else {
     if(token){
