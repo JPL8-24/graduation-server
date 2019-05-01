@@ -123,6 +123,7 @@ router.post("/resultToTea", (req, res, next) => {
   let {
     questionInfo
   } = req.body;
+  console.log(teaID)
   user.findOne({
       userID: teaID
     },
@@ -135,8 +136,9 @@ router.post("/resultToTea", (req, res, next) => {
         });
       } else {
         let hasPaper = userdoc.checkList.some(item => {
-          return (item.paperID = questionInfo.paperID);
+          return (item.paperID == questionInfo.paperID);
         });
+        console.log(hasPaper)
         if (userdoc.checkList.length === 0) {
           const tem_paper = {};
           tem_paper.paperID = questionInfo.paperID;
@@ -148,6 +150,7 @@ router.post("/resultToTea", (req, res, next) => {
             doneTime: questionInfo.doneTime
           });
           userdoc.checkList.push(tem_paper);
+          userdoc.markModified("checkList")
           userdoc.save((err, doc) => {
             return res.json({
               status: "1",
@@ -182,6 +185,25 @@ router.post("/resultToTea", (req, res, next) => {
               });
             });
           }
+        } else {
+          const tem_paper = {};
+          tem_paper.paperID = questionInfo.paperID;
+          tem_paper.title = questionInfo.title;
+          tem_paper.checked = [];
+          tem_paper.noCheck = [];
+          tem_paper.noCheck.push({
+            userID: questionInfo.userID,
+            doneTime: questionInfo.doneTime
+          });
+          userdoc.checkList.push(tem_paper);
+          userdoc.markModified("checkList")
+          userdoc.save((err, doc) => {
+            return res.json({
+              status: "1",
+              msg: "suc",
+              data: ""
+            });
+          });
         }
       }
     }
@@ -802,9 +824,9 @@ router.post('/addPaper', (req, res) => [
       });
     } else {
       res.json({
-        status:"1",
-        msg:"suc",
-        data:""
+        status: "1",
+        msg: "suc",
+        data: ""
       })
     }
   })
